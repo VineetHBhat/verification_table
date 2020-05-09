@@ -67,7 +67,8 @@ class Test_verification_table(unittest.TestCase):
         with open('expected_regex_table.xml', mode='r') as exp_res:
             self.expected_str = exp_res.read()
 
-        self.actual_str = self.generate_table.generate_regex_table()
+        self.actual_str = self.generate_table.generate_regex_table(
+            self.xml_table_list)
 
         self.assertEqual(self.actual_str, self.expected_str)
 
