@@ -12,3 +12,13 @@ class Verification_table:
             self.str_table = xtab.read()
 
         return self.str_table
+
+    def read_all_tables(self, xml_tables):
+
+        self.string_table_list = []
+
+        for xml_table in xml_tables:
+            string_table = self.read_xml_table(xml_table)
+            self.string_table_list.append(string_table)
+
+        return self.string_table_list
