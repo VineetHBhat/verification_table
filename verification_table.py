@@ -4,7 +4,7 @@ import re
 class Verification_table:
 
     def __init__(self):
-        pass
+        self.column_names = ['ID', 'DOE', 'inp1', 'inp2', 'out1', 'out2']
 
     def read_xml_table(self, xml_table):
 
@@ -22,3 +22,6 @@ class Verification_table:
             self.string_table_list.append(string_table)
 
         return self.string_table_list
+
+    def generate_regex_table(self):
+        pass
