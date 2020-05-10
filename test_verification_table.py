@@ -6,6 +6,17 @@ class Test_verification_table(unittest.TestCase):
 
     def setUp(self):
 
+        self.tag_list = ['ID', 'DOE', 'inp1', 'inp2', 'out1', 'out2']
+
+        self.extract_tag_value_regex = {
+            'ID': r'(?<=<ID>).+(?=</ID>)',
+            'DOE': r'(?<=<DOE>).+(?=</DOE>)',
+            'inp1': r'(?<=<inp1>).+(?=</inp1>)',
+            'inp2': r'(?<=<inp2>).+(?=</inp2>)',
+            'out1': r'(?<=<out1>).+(?=</out1>)',
+            'out2': r'(?<=<out2>).+(?=</out2>)'
+        }
+
         self.xml_table_list = ['sample_vp_1.xml',
                                'sample_vp_2.xml',
                                'sample_vp_3.xml'
@@ -44,7 +55,8 @@ class Test_verification_table(unittest.TestCase):
              '</row-0>')
         ]
 
-        self.generate_table = Verification_table()
+        self.generate_table = Verification_table(self.tag_list,
+                                                 self.extract_tag_value_regex)
 
     def test_read_xml_table(self):
 
@@ -64,7 +76,9 @@ class Test_verification_table(unittest.TestCase):
 
     def test_generate_regex_table(self):
 
-        with open('expected_regex_table.xml', mode='r') as exp_res:
+        expected_regex_xml = 'expected_regex_table.xml'
+
+        with open(expected_regex_xml, mode='r') as exp_res:
             self.expected_str = exp_res.read()
 
         self.actual_str = self.generate_table.generate_regex_table(
