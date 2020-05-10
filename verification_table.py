@@ -120,3 +120,14 @@ class Verification_table:
         self.format_generated_xml()
 
         return self.regex_string_table
+
+    def generate_output_xml(self, xml_tables, output_xml_filename):
+        '''
+        This methods generates the desired output in the form of a
+        verification xml file.
+        '''
+
+        xml_content = self.generate_regex_table(xml_tables)
+
+        with open(output_xml_filename, mode='w') as xfile:
+            xfile.write(xml_content)

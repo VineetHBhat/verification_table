@@ -1,4 +1,5 @@
 import unittest
+import filecmp
 from verification_table import Verification_table
 
 
@@ -21,6 +22,9 @@ class Test_verification_table(unittest.TestCase):
                                'sample_vp_2.xml',
                                'sample_vp_3.xml'
                                ]
+
+        self.output_xml_filename = 'verification_table_final.xml'
+        self.expected_regex_xml = 'expected_regex_table.xml'
 
         self.exp_string_list = [
             ('\ufeff<?xml version="1.0" encoding="UTF-8" ?>\n'
@@ -76,15 +80,21 @@ class Test_verification_table(unittest.TestCase):
 
     def test_generate_regex_table(self):
 
-        expected_regex_xml = 'expected_regex_table.xml'
-
-        with open(expected_regex_xml, mode='r') as exp_res:
+        with open(self.expected_regex_xml, mode='r') as exp_res:
             self.expected_str = exp_res.read()
 
         self.actual_str = self.generate_table.generate_regex_table(
             self.xml_table_list)
 
         self.assertEqual(self.actual_str, self.expected_str)
+
+    def test_generate_output_xml(self):
+
+        self.generate_table.generate_output_xml(self.xml_table_list,
+                                                self.output_xml_filename)
+
+        self.assertTrue(filecmp.cmp(self.output_xml_filename,
+                                    self.expected_regex_xml, shallow=False))
 
 
 if __name__ == '__main__':
