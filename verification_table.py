@@ -107,15 +107,25 @@ class Verification_table:
                 get_tag_generators.append(tag_generator)
 
             for vals in zip(*get_tag_generators):
-                try:
+
+                index = 0
+                vals_size = len(vals)
+                while index < (vals_size - 1):
+                    val_state = 'Same'
+                    if vals[index] != vals[index + 1]:
+                        val_state = 'Different'
+                        break
+                    index += 1
+
+                if val_state == 'Same':
+                    assemble_string = f'{vals[0]}'
+                elif val_state == 'Different':
                     assemble_string = f'(?:{vals[0]}'
-                except Exception as expn:
-                    print(f'An exception has occured.\nDetails:\n{expn}')
-                else:
-                    for i in range(1, len(vals)):
+                    for i in range(1, vals_size):
                         assemble_string += f'|{vals[i]}'
                     assemble_string += ')'
-                    self.generated_regex[col_tag].append(assemble_string)
+
+                self.generated_regex[col_tag].append(assemble_string)
 
         self.format_generated_xml()
 
